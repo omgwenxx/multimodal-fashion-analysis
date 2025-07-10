@@ -1,0 +1,13 @@
+clorama
+datasets
+dotenv
+h5py
+matplotlib
+numba
+numpy
+peft==0.12.0
+torch
+torchvision
+tqdm
+transformer
+wandb

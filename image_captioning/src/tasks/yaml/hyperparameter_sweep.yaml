@@ -1,0 +1,20 @@
+program: train.py
+method: grid
+metric:
+  goal: minimize
+  name: "Valid Loss"
+parameters:
+  model:
+    value: /home/gwendolyn.rippberger/grippberger/models/blip2-opt-2.7b  # Default value
+  dataset:
+    value: hm  # Default value
+  checkpoint_model_id:
+    value: -1  # Default value
+  learning_rate:
+    values: [1e-5, 5e-5, 1e-4, 5e-4]
+  batch_size:
+    values: [16, 32]
+  lora_layers:
+    values: ["all-linear", None] # None selects recommended layers for model
+  device:
+    values: ["cuda"]

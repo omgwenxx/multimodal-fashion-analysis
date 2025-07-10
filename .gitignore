@@ -1,0 +1,58 @@
+# too large files for git
+**/stanford-corenlp-3.6.0.jar
+**/stanford-corenlp-3.6.0-models.jar
+**/paraphrase-en.gz
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+notebooks
+
+# unnecessary files for now
+*.json
+*.csv
+*.out
+
+# VSC files
+.idea
+
+# data folder, can be created separatly
+**/data
+
+# lib folders
+**/pyevalcap/spice/lib/
+**/pyevalcap/spice/cache/
+**/pyevalcap/spice/tmp/
+
+# is updated frequently
+latex/references.bib
+
+# streamlit files
+streamlit
+
+# folder with models & train_output
+output/
+image_captioning/pyevalcap/accuracy/models/
+image_captioning/pyevalcap/accuracy/models_old/
+finetuned_models/
+**/pyevalcap/accuracy/models
+image_captioning/run
+recommender/Ducho-meets-Elliot
+
+# cache & wand
+cache/
+wandb/
+
+# .env files
+.env
+.env.secret
+
+*_sweep
+
+# debug folder
+debug/
