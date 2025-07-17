@@ -6,6 +6,7 @@ from streamlit_gsheets import GSheetsConnection
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from streamlit_extras.stylable_container import stylable_container
+from dotenv import load_dotenv
 
 st.set_page_config(page_title="Qualitative Analysis", layout="wide")
 
@@ -36,7 +37,13 @@ st.write(
     unsafe_allow_html=True,
 )
 
-hm_data = pd.read_csv("/data/grippberger/data_processed/hm/hm_test.csv", index_col=False)
+
+load_dotenv()
+
+HM_PATH_PROCESSED = os.getenv("HM_PROCESSED")
+HM_TEST_FILE = os.path.join(HM_PATH_PROCESSED, f"hm_test.csv")
+
+hm_data = pd.read_csv("HM_TEST_FILE", index_col=False)
 scores = pd.read_csv("./metrics_results_50.csv")
 
 hm_results = scores[scores["dataset"] == "hm"]

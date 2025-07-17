@@ -40,7 +40,14 @@ class BLIP2Model:
         torch_dtype: torch.dtype = torch.bfloat16,
         device: str = "cuda",
     ):
-        """ """
+        """
+        Initializes the BLIP2 model with the specified parameters.
+        Parameters:
+            base_checkpoint (str): The base model checkpoint to load.
+            adapter_checkpoint (str, optional): The PEFT adapter checkpoint to load. Defaults to None
+            torch_dtype (torch.dtype, optional): The torch dtype to use. Defaults to torch.bfloat16.
+            device (str, optional): The device to load the model on. Defaults to "cuda
+        """
         self.torch_dtype = torch_dtype
         self.device = device
 
@@ -98,7 +105,16 @@ class LlavaModel:
         prompt: str = "Describe the appearance of the clothing item",
         torch_dtype: torch.dtype = torch.bfloat16,
         device: str = "cpu",
-    ):
+    ):  
+        """
+        Initializes the Llava model with the specified parameters.
+        Parameters:
+            base_checkpoint (str): The base model checkpoint to load.
+            adapter_checkpoint (str, optional): The PEFT adapter checkpoint to load. Defaults to None
+            prompt (str, optional): The prompt to use for text generation. Defaults to "Describe the appearance of the clothing item".
+            torch_dtype (torch.dtype, optional): The torch dtype to use. Defaults to torch.bfloat16.
+            device (str, optional): The device to load the model on. Defaults to "cpu".
+        """
         self.torch_dtype = torch_dtype
         self.device = device
 
@@ -117,12 +133,25 @@ class LlavaModel:
         self.tokenizer = self.processor.tokenizer
         self.prompt = f"USER: <image>\n{prompt}\nASSISTANT:"
 
-    def generate_text(self, image, max_new_tokens=256):
+    def generate_text(self, image: Union[PIL.Image, torch.Tensor], max_new_tokens: int = 256):
+        """
+        Generate text based on the given image.
+        Parameters:
+            image (PIL.Image or torch.Tensor): The input image for generating text.
+            max_new_tokens (int, optional): The maximum number of new tokens to generate. Defaults to 256.
+        Returns:
+            str: The generated text.
+        """
         inputs = self.processor(self.prompt, image, return_tensors="pt").to(self.device, self.torch_dtype)
         output = self.model.generate(**inputs, max_new_tokens=max_new_tokens, do_sample=False)
         return self.processor.decode(output[0][2:], skip_special_tokens=True)
 
     def find_all_linear_names(self):
+        """
+        Finds all linear layer names in the model that are suitable for LoRA.
+        Returns:
+            List[str]: A list of names of linear layers that can be used with LoRA.
+        """
         cls = torch.nn.Linear
         lora_module_names = set()
         multimodal_keywords = ["multi_modal_projector", "vision_model"]

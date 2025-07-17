@@ -1,8 +1,65 @@
 <!-- TOC --><a name="hm-data-preprocessing"></a>
 # HM Data Preprocessing
 
-<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+Sure! Here's the full text version, ready to copy into your Markdown file:
 
+---
+
+## 🛠 How to Run `preprocess_hm.py`
+
+This script is used to preprocess H\&M data by running one or more preprocessing steps such as splitting the data, generating categories, or extracting attributes.
+
+### 📄 Usage
+
+```
+python preprocess_hm.py --steps [STEP ...] [OPTIONS]
+```
+
+### 🧩 Available Steps
+
+Pass one or more of the following values to `--steps` to define which parts of the pipeline to run:
+
+* `split` – create data splits
+* `attrs` – generate attribute labels
+* `cates` – generate category labels
+
+You can run multiple steps at once:
+
+```
+python preprocess_hm.py --steps split attrs cates
+```
+
+### ⚙️ Optional Flags
+
+* `--save_csv` or `-sc`: Save split data as CSV (default: not saved unless this flag is set)
+* `--create_datasets` or `-cd`: Create .csv files for dataset splits (default: not created unless flag is set)
+* `--create_arrow` or `-ca`: Save Arrow files for faster loading (default: not created unless flag is set)
+* `--attrs_split SPLIT`: Choose the split for generating attributes (`train`, `val`, `test`; default: `test`)
+
+### ✅ Example Commands
+
+Generate all splits and datasets:
+
+```
+python preprocess_hm.py --steps split --save_csv --create_datasets --create_arrow
+```
+
+Generate only attribute labels for validation split:
+
+```
+python preprocess_hm.py --steps attrs --attrs_split val
+```
+
+Generate categories only:
+
+```
+python preprocess_hm.py --steps cates
+```
+
+
+## Preprocessing pipeline
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+More information on the preprocessing steps, can be found here.
    * [Process](#process)
       + [Setup](#setup)
       + [Preprocessing](#preprocessing)
@@ -15,6 +72,7 @@
 - [Sped up data loading using arrow](#sped-up-data-loading-using-arrow)
 
 <!-- TOC end -->
+
 
 <!-- TOC --><a name="process"></a>
 ## Process

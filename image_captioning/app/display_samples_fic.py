@@ -40,7 +40,6 @@ st.write(
     unsafe_allow_html=True,
 )
 
-# load fic dataset
 fic_test = FICDataset("test")
 scores = pd.read_csv("./metrics_results_50.csv")
 

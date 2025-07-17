@@ -11,3 +11,4 @@ torchvision
 tqdm
 transformer
 wandb
+streamlit==1.34.0

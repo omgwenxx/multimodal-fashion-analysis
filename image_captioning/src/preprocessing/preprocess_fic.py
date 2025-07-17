@@ -25,39 +25,36 @@ test_cap_attrs_map = "TEST_CAP_TO_ATTRS_MAP.json"
 def map_captions_to_attrs(output_file: str = "TEST_CAP_TO_ATTRS_MAP.json"):
     """
     Maps unique captions from a JSON file to attributes based on metadata and saves the result to a JSON file.
+    This is done because attributes file for the test set does not match the test items.
     
     Parameters:
         output_file (str): Filename for the output JSON file.
     """
 
     def calculate_overlap(main_string, substring):
-        # Tokenize both strings into words
+        """
+        Calculate the percentage of overlap between two strings based on word tokens.
+        :param main_string: The main string to compare against.
+        :param substring: The substring to check for overlap.
+        :return: Percentage of overlap between the two strings.
+        """
         sub_len = len(substring.lower().split())
-
         main_words = set(main_string.lower().split()[:sub_len])
         sub_words = set(substring.lower().split())
         
-        # Calculate the intersection of the words
         overlap = main_words.intersection(sub_words)
-        
-        # Calculate the percentage of overlap
         overlap_percentage = len(overlap) / len(sub_words)
         
         return overlap_percentage
 
-
-    # Load metadata
     with open(os.path.join(data_folder, meta_file), 'r') as file:
         meta_data = json.load(file)
 
-    # Load test captions
     with open(os.path.join(data_folder, captions_file), 'r') as file:
         test_caps = json.load(file)
 
-    # Create a dictionary for unique captions with None as default values
     unique_captions_dict = {caption: None for caption in test_caps}
 
-    # Map captions to attributes
     for caption in tqdm(unique_captions_dict.keys(), desc="Processing captions"):
         best_match = None
         highest_score = 0
@@ -68,7 +65,6 @@ def map_captions_to_attrs(output_file: str = "TEST_CAP_TO_ATTRS_MAP.json"):
                 highest_score = overlap_score
         unique_captions_dict[caption] = best_match
 
-    # Save the result to the output JSON file
     output_json_path = os.path.join(data_folder, output_file)
     with open(output_json_path, 'w') as json_file:
         json.dump(unique_captions_dict, json_file, indent=4)

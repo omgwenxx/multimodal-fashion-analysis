@@ -339,6 +339,9 @@ def extract_attrs():
 
 
 def get_attrs_count(df: pd.DataFrame):
+    """
+    Get the count of each noun and adjective in the DataFrame. For plotting.
+    """
     all_words = [word for sublist in df["noun_adj_words"] for word in sublist]
     word_counts = Counter(all_words)
     word_counts_df = pd.DataFrame(word_counts.items(), columns=["Word", "Count"])
@@ -375,7 +378,9 @@ def add_attrs_column(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def add_attrs_column_batch(df: pd.DataFrame, batch_size:int = 500) -> pd.DataFrame:
-
+    """
+    Add a new column to the DataFrame containing the extracted lemmatized nouns and adjectives in batches.
+    """
     nlp = stanza.Pipeline("en", verbose=False)
 
     logger.info(f"Processing DataFrame to extract attributes (BATCH={batch_size})..")
@@ -406,10 +411,11 @@ def add_attrs_column_batch(df: pd.DataFrame, batch_size:int = 500) -> pd.DataFra
 
 
 def plot_word_counts(word_counts_df: pd.DataFrame):
-    # Sort the DataFrame by 'Count' column in descending order
-    word_counts_df = word_counts_df.sort_values(by="Count", ascending=False)
+    """
+    Plot the word counts as a histogram.
+    """
 
-    # Display the top 20 count values
+    word_counts_df = word_counts_df.sort_values(by="Count", ascending=False)
     top_20_counts = word_counts_df.head(20)
     print("Top 20 words", top_20_counts)
 
@@ -443,6 +449,9 @@ def plot_word_counts(word_counts_df: pd.DataFrame):
 
 
 def plot_word_cloud(df: pd.DataFrame):
+    """
+    Generate a word cloud from the 'detail_desc' column of the DataFrame.
+    """
     text = " ".join(df["detail_desc"].astype(str))
 
     x, y = np.ogrid[:1920, :1080]
@@ -487,6 +496,10 @@ def copy_image(destination_folder: str, img_path: str):
 
 
 def save_split(train_df: pd.DataFrame, val_df: pd.DataFrame, test_df: pd.DataFrame):
+    """
+    Save the train, validation, and test splits as csv files to the HM_SPLIT_FOLDER.
+    Creates the folder if it does not exist.
+    """
     os.makedirs(os.path.join(HM_SPLIT_FOLDER, "train"), exist_ok=True)
     os.makedirs(os.path.join(HM_SPLIT_FOLDER, "validation"), exist_ok=True)
     os.makedirs(os.path.join(HM_SPLIT_FOLDER, "test"), exist_ok=True)
@@ -508,6 +521,10 @@ def save_split(train_df: pd.DataFrame, val_df: pd.DataFrame, test_df: pd.DataFra
 
 
 def save_split_arrow():
+    """
+    Save the train, validation, and test splits as arrow files to the HM_SPLIT_ARROW folder.
+    Creates the folder if it does not exist.
+    """
     OUTFOLDER = os.getenv("HM_SPLIT_ARROW")
     splits = ["test", "train", "validation"]
     split_dict = {}
@@ -604,6 +621,10 @@ def create_split(
 
 
 def filter_attributes(df: pd.DataFrame, min_occurences: int = 10) -> list[str]:
+    """
+    Filter attributes based on their occurrence in the DataFrame. Default attributes that occur at least 10 times are kept.
+    Returns a set of frequent words.
+    """
     all_words = []
 
     for attributes in df["attributes"]:
@@ -663,6 +684,10 @@ def generate_attributes(split: str = "test"):
 
 
 def get_categories_mapping(save_file: bool = True):
+    """
+    Returns a mapping of categories to their respective indices. For classification tasks.
+    If save_file is True, saves the mapping to a JSON file.
+    """
     categories = [
         "Bra",
         "Swimwear bottom",
@@ -765,6 +790,9 @@ def get_categories_mapping(save_file: bool = True):
 
 
 def generate_categories():
+    """
+    Generate categories from the split articles files. Saves different files for later evaluation (Acc). All words are lowercased.
+    """
     SPLITS_PATH = [
         os.path.join(HM_PATH_PROCESSED, "hm_train.csv"),
         os.path.join(HM_PATH_PROCESSED, "hm_val.csv"),
@@ -808,7 +836,7 @@ if __name__ == "__main__":
         "-cd",
         "--create_datasets",
         action="store_false",
-        help="Create datasets for torch.Dataset usage (default: False)",
+        help="Create .csv files for dataset splits (default: False)",
     )
     parser.add_argument(
         "-ca",

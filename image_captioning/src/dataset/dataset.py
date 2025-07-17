@@ -143,10 +143,24 @@ class HMDataset(Dataset):
 
 
 def get_subset(dataset, num: int):
+    """
+    Returns a subset of the dataset with the first `num` items.
+    :param dataset: The dataset to subset.
+    :param num: The number of items to include in the subset.
+    :return: A Subset of the dataset containing the first `num` items.
+    """
     return Subset(dataset, range(num))
 
 
 def get_datasets(dataset: str, test: bool = False, num: int = 100, debug: bool = False):
+    """
+    Returns the appropriate dataset based on the specified parameters.
+    :param dataset: The name of the dataset to load, either "hm" or "fic".
+    :param test: If True, returns the test split of the dataset; otherwise, returns the train and validation splits.
+    :param num: The number of items to include in the subset if debug is True.
+    :param debug: If True, returns a subset of the dataset with the first `num` items.
+    :return: The requested dataset or its subsets.
+    """
     assert dataset in ["hm", "fic"]
     if dataset == "hm":
         if test:
