@@ -41,8 +41,6 @@ image_captioning/pyevalcap/accuracy/models/
 image_captioning/pyevalcap/accuracy/models_old/
 finetuned_models/
 **/pyevalcap/accuracy/models
-image_captioning/run
-recommender/Ducho-meets-Elliot
 
 # cache & wand
 cache/
@@ -56,3 +54,5 @@ wandb/
 
 # debug folder
 debug/
+
+Ducho-meets-Elliot/
